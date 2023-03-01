@@ -8,9 +8,14 @@ from flask_login import UserMixin, login_user, LoginManager, login_required, cur
 from forms import CreatePostForm, RegisterForm, LogInForm, CommentForm
 from flask_gravatar import Gravatar
 from functools import wraps
+import os
+from dotenv import load_dotenv
+
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = '8BYkEfBA6O6donzWlSihBXox7C0sKR6b'
+secret_key = os.getenv('SECRET_KEY')
+app.config['SECRET_KEY'] = secret_key
+
 ckeditor = CKEditor(app)
 Bootstrap(app)
 gravatar = Gravatar(app, size=100, rating='g', default='retro', force_default=False,
@@ -22,7 +27,7 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///blog.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 # app.app_context().push()
 db = SQLAlchemy(app)
-
+load_dotenv()
 
 login_manager = LoginManager()
 login_manager.init_app(app=app)
